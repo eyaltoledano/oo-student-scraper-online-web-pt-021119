@@ -21,14 +21,20 @@ class Scraper
     html = open(profile_url)
     profile_page = Nokogiri::HTML(html)
     hash = {}
-    profile_page.css('').each do |student|
-      # hash[:twitter] = 
-      # hash[:linkedin] = 
-      # hash[:github] = 
-      # hash[:blog] = 
-      # hash[:profile_quote] = 
-      # hash[:bio] = 
-    end
+    
+    # hash[:twitter] =
+    # hash[:linkedin] =
+    # hash[:github] =
+    # hash[:blog] =
+
+    binding.pry
+    hash[:profile_quote] = profile_page.css('div.profile-quote').text
+    hash[:bio] = profile_page.css('.bio-content').children[3].text.strip
+
+    # profile_page.css('.bio-content').children.children.children.text
+    # profile_page.css('.bio-content content-holder').css('description-holder')
+    #
+    hash
   end
 
 end
