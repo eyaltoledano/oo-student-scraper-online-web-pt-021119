@@ -21,19 +21,22 @@ class Scraper
     html = open(profile_url)
     profile_page = Nokogiri::HTML(html)
     hash = {}
-    
-    # hash[:twitter] =
-    # hash[:linkedin] =
-    # hash[:github] =
-    # hash[:blog] =
 
-    binding.pry
+    profile_page.css('.social-icon-container').each do |social_icon|
+      binding.pry
+      
+      hash[:twitter] = social_icon.children[1].attributes["href"].value unless social_icon.children[1].attributes["href"].value.nil?
+
+      hash[:linkedin] = social_icon.children[3].attributes["href"].value unless social_icon.children[3].attributes["href"].value.nil?
+
+      hash[:github] = social_icon.children[5].attributes["href"].value unless social_icon.children[5].attributes["href"].value.nil?
+
+      hash[:blog] = social_icon.children[7].attributes["href"].value unless social_icon.children[7].attributes["href"].value.nil?
+    end
+
     hash[:profile_quote] = profile_page.css('div.profile-quote').text
     hash[:bio] = profile_page.css('.bio-content').children[3].text.strip
-
-    # profile_page.css('.bio-content').children.children.children.text
-    # profile_page.css('.bio-content content-holder').css('description-holder')
-    #
+    # binding.pry
     hash
   end
 
