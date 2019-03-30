@@ -24,7 +24,7 @@ class Scraper
     profile_page.css('.social-icon-container a').each do |icon|
       student_name = profile_page.css('.profile-name').text
       student_fname, student_lname = student_name.split(" ")
-
+      
       hash[:twitter] = icon["href"] unless !hash[:twitter].nil? if icon["href"].include?("twitter")
 
       hash[:linkedin] = icon["href"] unless !hash[:linkedin].nil? if icon["href"].include?("linkedin")
