@@ -21,39 +21,21 @@ class Scraper
     html = open(profile_url)
     profile_page = Nokogiri::HTML(html)
     hash = {}
-<<<<<<< HEAD
+    profile_page.css('.social-icon-container a').each do |icon|
+      student_name = profile_page.css('.profile-name').text
+      student_fname, student_lname = student_name.split(" ")
 
-    profile_page.css('.social-icon-container').each do |social_icon|
-      binding.pry
-      
-      hash[:twitter] = social_icon.children[1].attributes["href"].value unless social_icon.children[1].attributes["href"].value.nil?
+      hash[:twitter] = icon["href"] unless !hash[:twitter].nil? if icon["href"].include?("twitter")
 
-      hash[:linkedin] = social_icon.children[3].attributes["href"].value unless social_icon.children[3].attributes["href"].value.nil?
+      hash[:linkedin] = icon["href"] unless !hash[:linkedin].nil? if icon["href"].include?("linkedin")
 
-      hash[:github] = social_icon.children[5].attributes["href"].value unless social_icon.children[5].attributes["href"].value.nil?
+      hash[:github] = icon["href"] unless !hash[:github].nil? if icon["href"].include?("github")
 
-      hash[:blog] = social_icon.children[7].attributes["href"].value unless social_icon.children[7].attributes["href"].value.nil?
-=======
-    profile_page.css('').each do |student|
-      # hash[:twitter] =
-      # hash[:linkedin] =
-      # hash[:github] =
-      # hash[:blog] =
-    end
-
-    profile_page.css('.profile_quote').each do |student|
-      binding.pry
-      # hash[:profile_quote] =
-    end
-
-    profile_page.css('.bio-content content-holder').css('description-holder').each do |student|
-      # hash[:bio] =
->>>>>>> 336d4408f8aefe2d795672b6c13621be4f3b4d92
+      hash[:blog] = icon["href"] unless !hash[:blog].nil? if icon["href"].include?(student_fname.downcase) && !icon["href"].include?("linkedin") && !icon["href"].include?("twitter") && !icon["href"].include?("github")
     end
 
     hash[:profile_quote] = profile_page.css('div.profile-quote').text
-    hash[:bio] = profile_page.css('.bio-content').children[3].text.strip
-    # binding.pry
+    hash[:bio] = profile_page.css('.bio-content .description-holder').text.strip
     hash
   end
 
